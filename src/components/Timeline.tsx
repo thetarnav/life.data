@@ -8,7 +8,7 @@ const Timeline: Component = () => {
 
 	const [zoom, setZoom] = createSignal(0)
 	const [scrollLeft, setScrollLeft] = createSignal(0)
-	const [mouseX, setMouseX] = createSignal(0)
+	const [getMouseX, setMouseX] = createSignal(0)
 
 	const mouseP = createMemo<number>(() => {
 		const container = el()
@@ -16,12 +16,12 @@ const Timeline: Component = () => {
 		zoom()
 		scrollLeft()
 		// console.log(scrollLeft())
-		return (container.scrollLeft + mouseX()) / container.scrollWidth
+		return (container.scrollLeft + getMouseX()) / container.scrollWidth
 	})
 
 	const mouseAbsolute = createMemo<number>(() => {
 		mouseP()
-		return (el()?.scrollLeft ?? 0) + mouseX()
+		return (el()?.scrollLeft ?? 0) + getMouseX()
 	})
 
 	const moveXScroll = (delta: number) => {
@@ -37,16 +37,18 @@ const Timeline: Component = () => {
 		const container = el()
 		if (!container) return
 		if (e.deltaY) {
-			const prevMouseP = mouseP()
+			const mouseX = getMouseX()
+			const prevSW = container.scrollWidth
+			const prevP = (container.scrollLeft + mouseX) / prevSW
+
+			// vertical scrolling zooms the timeline
 			setZoom(z => clamp(z - e.deltaY / 2000, 0, 1))
-			const mousePDifference = mouseP() - prevMouseP
-			const absoluteShift = mousePDifference * container.scrollWidth
+			// this effects DOM immediately, causing the mouse to be in different position relatively to the timeline's content
 
-			container.scrollBy({ left: -absoluteShift })
-
-			// console.log(prevScrollLeft, container.scrollLeft)
-			// const width = sections()[0].clientWidth
-			// console.log(el()?.scrollWidth, el()?.clientWidth)
+			const newSW = container.scrollWidth
+			const newSL = prevP * newSW - mouseX
+			// container's scroll position needs to be adjusted to correct mouse position
+			container.scrollTo({ left: newSL })
 		}
 		if (e.deltaX) {
 			// console.log(e.deltaX)
