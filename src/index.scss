@@ -1,0 +1,13 @@
+html,
+body,
+#root {
+  @apply h-screen w-screen overflow-hidden;
+}
+
+.month-section {
+  &:nth-child(2n) {
+    @apply bg-gray-200;
+  }
+
+  width: calc(4rem + 8rem * var(--zoom));
+}

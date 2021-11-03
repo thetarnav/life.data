@@ -8,6 +8,7 @@ declare global {
   const createSignal: typeof import('solid-js')['createSignal']
   const createStore: typeof import('solid-js/store')['createStore']
   const For: typeof import('solid-js')['For']
+  const IconCarbonZoomIn: typeof import('~icons/carbon/zoom-in.jsx')['default']
   const lazy: typeof import('solid-js')['lazy']
   const Match: typeof import('solid-js')['Match']
   const on: typeof import('solid-js')['on']
