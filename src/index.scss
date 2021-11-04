@@ -5,7 +5,7 @@ body,
 }
 
 .month-section {
-  &:nth-child(2n) {
+  &:nth-child(2n-1) {
     @apply bg-gray-200;
   }
 
