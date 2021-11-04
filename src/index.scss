@@ -10,13 +10,19 @@ body,
 }
 
 .month-section {
-  @apply bg-yellow-600 bg-opacity-30;
+  div {
+    @apply bg-yellow-600 bg-opacity-30;
+  }
+  outline: 2px solid black;
+  outline-offset: -1px;
   &:nth-child(2n-1) {
-    @apply bg-yellow-300 bg-opacity-30;
+    div {
+      @apply bg-yellow-300 bg-opacity-30;
+    }
   }
   will-change: width;
 
-  width: calc(4rem + 48rem * var(--zoom));
+  width: calc((1rem + 16rem * var(--zoom)) * 4.34524);
 }
 
 .week-section {
@@ -26,5 +32,5 @@ body,
   }
   will-change: width;
 
-  width: calc(1rem + 12rem * var(--zoom));
+  width: calc(1rem + 16rem * var(--zoom));
 }
