@@ -8,6 +8,7 @@ body,
   &:nth-child(2n-1) {
     @apply bg-gray-200;
   }
+  will-change: width;
 
-  width: calc(4rem + 8rem * var(--zoom));
+  width: calc(4rem + 32rem * var(--zoom));
 }
