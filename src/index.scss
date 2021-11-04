@@ -4,11 +4,27 @@ body,
   @apply h-screen w-screen overflow-hidden;
 }
 
+.month-section,
+.week-section {
+  @apply relative h-full;
+}
+
 .month-section {
+  @apply bg-yellow-600 bg-opacity-30;
   &:nth-child(2n-1) {
-    @apply bg-gray-200;
+    @apply bg-yellow-300 bg-opacity-30;
   }
   will-change: width;
 
-  width: calc(4rem + 32rem * var(--zoom));
+  width: calc(4rem + 48rem * var(--zoom));
+}
+
+.week-section {
+  @apply bg-gray-400 bg-opacity-30;
+  &:nth-child(2n-1) {
+    @apply bg-gray-700 bg-opacity-30;
+  }
+  will-change: width;
+
+  width: calc(1rem + 12rem * var(--zoom));
 }

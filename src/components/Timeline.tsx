@@ -1,5 +1,8 @@
-import { clamp, range } from 'lodash'
+import { range } from 'lodash'
 import listen from '@/utils/solid/event-listener'
+import MonthSection from './MonthSection'
+import { updateZoom, zoom } from '@/store/general'
+import WeekSection from './WeekSection'
 
 const Timeline: Component = () => {
 	const n = 15
@@ -12,9 +15,9 @@ const Timeline: Component = () => {
 
 	const [el, setEl] = createSignal<HTMLElement>()
 	const [contentWrapper, setContentWrapper] = createSignal<HTMLElement>()
-	const [sections, setSections] = createSignal<HTMLElement[]>([])
+	const [monthsRef, setMonthsRef] = createSignal<HTMLElement>()
 
-	const [zoom, setZoom] = createSignal(0)
+	const [contentWidth, setContentWidth] = createSignal(0)
 
 	const handleWheel = (e: WheelEvent) => {
 		const container = el(),
@@ -29,8 +32,10 @@ const Timeline: Component = () => {
 			(container.scrollWidth - 2 * pad)
 
 		// vertical scrolling zooms the timeline
-		setZoom(z => clamp(z - e.deltaY / 4000, 0, 1))
+		updateZoom(-e.deltaY / 4000)
 		// this effects DOM immediately, causing the mouse to be in different position relatively to the timeline's content
+
+		setContentWidth(monthsRef()?.clientWidth ?? 0)
 
 		const newSL = prevP * (container.scrollWidth - 2 * pad) - mouseX + pad
 		// container's scroll position needs to be adjusted to correct mouse position
@@ -54,6 +59,10 @@ const Timeline: Component = () => {
 		passive: false,
 	})
 
+	onMount(() => {
+		setContentWidth(monthsRef()?.clientWidth ?? 0)
+	})
+
 	return (
 		<>
 			<div class="fixed z-50 left-4 top-4"></div>
@@ -63,17 +72,28 @@ const Timeline: Component = () => {
 				style={`--zoom: ${zoom()}`}
 				onMouseDown={() => (isDragging = true)}
 			>
-				<div ref={setContentWrapper} class="flex px-64 w-max">
-					<For each={range(n)}>
-						{index => (
-							<section
-								ref={el => setSections(p => [...p, el])}
-								class="month-section h-[70vh] flex flex-shrink-0 items-center justify-center"
-							>
-								{index + 1}
-							</section>
-						)}
-					</For>
+				<div
+					ref={setContentWrapper}
+					class="relative px-64 w-max h-[70vh] box-content"
+					style={{ width: contentWidth() + 'px' }}
+				>
+					<div
+						ref={setMonthsRef}
+						class="absolute top-0 left-64 flex h-full"
+					>
+						<For each={range(n + 1)}>{index => <MonthSection />}</For>
+					</div>
+					<div class="absolute top-0 left-64 flex h-full opacity-50">
+						<For each={range(Math.floor(n * 4.34524) - 1)}>
+							{index => <WeekSection />}
+						</For>
+					</div>
+					{/* <Switch>
+						<Match when={zoom() < 0.4}>
+						</Match>
+						<Match when={zoom() >= 0.4}>
+						</Match>
+					</Switch> */}
 				</div>
 			</div>
 		</>
