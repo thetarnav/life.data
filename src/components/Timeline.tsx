@@ -3,11 +3,11 @@ import listen from '@/utils/solid/event-listener'
 import MonthSection from './MonthSection'
 import { useAppStore } from '@/store/app'
 import WeekSection from './WeekSection'
+import { getNumberOfWeeks } from '@/logic/time'
 
 const Timeline: Component = () => {
-	const { zoom, updateZoom } = useAppStore()
+	const { state, zoom, updateZoom } = useAppStore()
 
-	const n = 21
 	// content wrapper padding: 16rem
 	const pad =
 		parseFloat(getComputedStyle(document.documentElement).fontSize) * 21
@@ -70,11 +70,13 @@ const Timeline: Component = () => {
 					class="relative px-84 w-max h-[70vh] box-content"
 				>
 					<div class="flex h-full">
-						<For each={range(n)}>{index => <MonthSection />}</For>
+						<For each={range(state.nMonths)}>
+							{index => <MonthSection index={index} />}
+						</For>
 					</div>
 					<div class="absolute top-0 left-84 flex h-full">
-						<For each={range(Math.floor(n * 4.34524))}>
-							{index => <WeekSection />}
+						<For each={range(getNumberOfWeeks())}>
+							{index => <WeekSection index={index} />}
 						</For>
 					</div>
 					{/* <Switch>

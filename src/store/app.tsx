@@ -1,8 +1,17 @@
+import type { Accessor } from 'solid-js'
+import type { Store } from 'solid-js/store'
+
 import { flipP, valToP } from '@/utils/general'
 import { clamp } from 'lodash'
-import type { Accessor } from 'solid-js'
+import { getNumberOfMonths } from '@/logic/time'
+
+interface AppStoreState {
+	nMonths: number
+	zoom: number
+}
 
 type AppStore = {
+	state: Store<AppStoreState>
 	zoom: Accessor<number>
 	updateZoom: (move: number) => void
 	monthsOpacity: Accessor<number>
@@ -15,6 +24,7 @@ const easing = (t: number) => t * t
 
 export const AppStoreProvider: Component = props => {
 	const [state, setState] = createStore({
+		nMonths: getNumberOfMonths(),
 		zoom: 0,
 	})
 
@@ -30,6 +40,7 @@ export const AppStoreProvider: Component = props => {
 	const weeksOpacity = createMemo(() => clamp(valToP(zoom(), 0.1, 0.4), 0, 1))
 
 	const store: AppStore = {
+		state,
 		zoom,
 		updateZoom,
 		monthsOpacity,

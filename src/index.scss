@@ -9,20 +9,23 @@ body,
   @apply relative h-full;
 }
 
+$day-width: "(0.1rem + 3rem * var(--zoom))";
+
 .month-section {
-  div {
-    @apply bg-yellow-600 bg-opacity-30;
-  }
   outline: 2px solid black;
   outline-offset: -1px;
+
+  will-change: width;
+  width: calc(#{$day-width} * var(--days, 30));
+
+  .cover {
+    @apply w-full h-full bg-yellow-600 bg-opacity-30;
+  }
   &:nth-child(2n-1) {
-    div {
+    .cover {
       @apply bg-yellow-300 bg-opacity-30;
     }
   }
-  will-change: width;
-
-  width: calc((1rem + 16rem * var(--zoom)) * 4.34524);
 }
 
 .week-section {
@@ -32,5 +35,5 @@ body,
   }
   will-change: width;
 
-  width: calc(1rem + 16rem * var(--zoom));
+  width: calc(#{$day-width} * var(--week-days, 7));
 }

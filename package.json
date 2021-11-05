@@ -29,6 +29,7 @@
     "@solid-primitives/scroll": "^0.0.100",
     "@solid-primitives/storage": "^0.0.106",
     "@solid-primitives/throttle": "^1.0.3",
+    "date-fns": "^2.25.0",
     "lodash": "^4.17.21",
     "solid-js": "^1.2.1",
     "unplugin-icons": "^0.12.17"
