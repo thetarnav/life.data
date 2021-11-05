@@ -33,6 +33,9 @@ export default defineConfig({
 						'createRoot',
 						'splitProps',
 						'lazy',
+						// context
+						'createContext',
+						'useContext',
 						// components
 						'Suspense',
 						'For',

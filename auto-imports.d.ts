@@ -2,6 +2,7 @@
 // We suggest you to commit this file into source control
 declare global {
   const createComputed: typeof import('solid-js')['createComputed']
+  const createContext: typeof import('solid-js')['createContext']
   const createEffect: typeof import('solid-js')['createEffect']
   const createMemo: typeof import('solid-js')['createMemo']
   const createRoot: typeof import('solid-js')['createRoot']
@@ -19,5 +20,6 @@ declare global {
   const Suspense: typeof import('solid-js')['Suspense']
   const Switch: typeof import('solid-js')['Switch']
   const untrack: typeof import('solid-js')['untrack']
+  const useContext: typeof import('solid-js')['useContext']
 }
 export {}

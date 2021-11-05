@@ -1,8 +1,8 @@
-import { monthsOpacity, zoom } from '@/store/general'
-import { flipP, valToP } from '@/utils/general'
-import { clamp } from 'lodash'
+import { useAppStore } from '@/store/app'
 
 const MonthSection: Component = () => {
+	const { monthsOpacity } = useAppStore()
+
 	return (
 		<section class="month-section flex flex-shrink-0 items-center justify-center">
 			<p class="absolute top-4">MONTH</p>

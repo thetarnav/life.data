@@ -1,8 +1,10 @@
 import styles from './App.module.scss'
 import Timeline from './components/Timeline'
-import { zoom } from './store/general'
+import { useAppStore } from './store/app'
 
 const App: Component = () => {
+	const { zoom } = useAppStore()
+
 	return (
 		<div class="h-full flex items-center">
 			<div class="fixed top-4 left-[50vw]">{zoom()}</div>

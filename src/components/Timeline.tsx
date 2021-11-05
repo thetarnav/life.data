@@ -1,10 +1,12 @@
 import { range } from 'lodash'
 import listen from '@/utils/solid/event-listener'
 import MonthSection from './MonthSection'
-import { updateZoom, zoom } from '@/store/general'
+import { useAppStore } from '@/store/app'
 import WeekSection from './WeekSection'
 
 const Timeline: Component = () => {
+	const { zoom, updateZoom } = useAppStore()
+
 	const n = 21
 	// content wrapper padding: 16rem
 	const pad =
