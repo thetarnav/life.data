@@ -5,6 +5,7 @@ specifiers:
   '@solid-primitives/debounce': ^1.0.2
   '@solid-primitives/event-listener': ^1.2.3
   '@solid-primitives/fetch': ^0.0.106
+  '@solid-primitives/intersection-observer': ^0.0.108
   '@solid-primitives/raf': ^1.0.3
   '@solid-primitives/scroll': ^0.0.100
   '@solid-primitives/storage': ^0.0.106
@@ -27,6 +28,7 @@ dependencies:
   '@solid-primitives/debounce': 1.0.2
   '@solid-primitives/event-listener': 1.2.3
   '@solid-primitives/fetch': 0.0.106
+  '@solid-primitives/intersection-observer': 0.0.108_solid-js@1.2.2
   '@solid-primitives/raf': 1.0.3
   '@solid-primitives/scroll': 0.0.100
   '@solid-primitives/storage': 0.0.106
@@ -410,6 +412,14 @@ packages:
 
   /@solid-primitives/fetch/0.0.106:
     resolution: {integrity: sha512-alDI7ofRbcqVZbcMKRr6ZhmYIdJKgsFm9yreGHB9Oe4z20SrGEtrD5g/kSf+DTvdurZejZSi2CeSabGm9sS66g==}
+    dependencies:
+      solid-js: 1.2.2
+    dev: false
+
+  /@solid-primitives/intersection-observer/0.0.108_solid-js@1.2.2:
+    resolution: {integrity: sha512-TYp40QNFQ3xkdUpWyu82HL/RnKsKsMG4yO0bonfQZC3d1USwJ2P/bwr/xOwyVlsxb5EQGc+71I16t8+6jihTDQ==}
+    peerDependencies:
+      solid-js: ^1.0.6
     dependencies:
       solid-js: 1.2.2
     dev: false

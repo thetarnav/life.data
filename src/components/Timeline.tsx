@@ -8,7 +8,7 @@ import WeekSection from './WeekSection'
 import { getNumberOfWeeks } from '@/logic/time'
 
 const Timeline: Component = () => {
-	const { state, zoom, updateZoom } = useAppStore()
+	const { state, zoom, updateZoom, weeksOpacity } = useAppStore()
 
 	// content wrapper padding: 16rem
 	const pad =
@@ -70,18 +70,20 @@ const Timeline: Component = () => {
 			>
 				<div
 					ref={setContentWrapper}
-					class="relative px-84 w-max h-[70vh] box-content"
+					class="relative px-84 my-16 w-max h-[70vh] box-content"
 				>
 					<div class="flex h-full">
 						<For each={range(state.nMonths)}>
 							{index => <MonthSection index={index} />}
 						</For>
 					</div>
-					<div class="absolute top-0 left-84 flex h-full">
-						<For each={range(getNumberOfWeeks())}>
-							{index => <WeekSection index={index} />}
-						</For>
-					</div>
+					<Show when={weeksOpacity() > 0}>
+						<div class="absolute top-0 left-84 flex h-full">
+							<For each={range(getNumberOfWeeks())}>
+								{index => <WeekSection index={index} />}
+							</For>
+						</div>
+					</Show>
 				</div>
 			</div>
 		</>

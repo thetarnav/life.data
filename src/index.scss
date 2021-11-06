@@ -29,10 +29,15 @@ $day-width: "(0.1rem + 3rem * var(--zoom))";
 }
 
 .week-section {
-  @apply bg-gray-400 bg-opacity-30;
-  &:nth-child(2n-1) {
-    @apply bg-gray-700 bg-opacity-30;
+  .cover {
+    @apply w-full h-full bg-gray-400 bg-opacity-30;
   }
+  &:nth-child(2n-1) {
+    .cover {
+      @apply bg-gray-700 bg-opacity-30;
+    }
+  }
+
   will-change: width;
 
   width: calc(#{$day-width} * var(--week-days, 7));
