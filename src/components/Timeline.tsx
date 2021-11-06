@@ -80,7 +80,12 @@ const Timeline: Component = () => {
 					<Show when={weeksOpacity() > 0}>
 						<div class="absolute top-0 left-84 flex h-full">
 							<For each={range(getNumberOfWeeks())}>
-								{index => <WeekSection index={index} />}
+								{i => (
+									<WeekSection
+										index={i}
+										isLast={i === getNumberOfWeeks() - 1}
+									/>
+								)}
 							</For>
 						</div>
 					</Show>

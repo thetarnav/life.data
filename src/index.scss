@@ -9,7 +9,7 @@ body,
   @apply relative h-full;
 }
 
-$day-width: "(0.1rem + 3rem * var(--zoom))";
+$day-width: "(0.1rem + 3.5rem * var(--zoom))";
 
 .month-section {
   outline: 2px solid black;
