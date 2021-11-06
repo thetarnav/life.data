@@ -1,9 +1,9 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@iconify-json/carbon': ^1.0.8
+  '@iconify-json/carbon': ^1.0.9
   '@solid-primitives/debounce': ^1.0.2
-  '@solid-primitives/event-listener': ^1.1.3
+  '@solid-primitives/event-listener': ^1.2.3
   '@solid-primitives/fetch': ^0.0.106
   '@solid-primitives/raf': ^1.0.3
   '@solid-primitives/scroll': ^0.0.100
@@ -14,38 +14,38 @@ specifiers:
   date-fns: ^2.25.0
   lodash: ^4.17.21
   sass: ^1.43.4
-  solid-js: ^1.2.1
+  solid-js: 1.2.2
   typescript: ^4.4.4
   unplugin-auto-import: ^0.4.13
-  unplugin-icons: ^0.12.17
+  unplugin-icons: ^0.12.18
   vite: ^2.6.13
-  vite-plugin-solid: ^2.1.1
-  vite-plugin-windicss: ^1.4.12
+  vite-plugin-solid: ^2.1.2
+  vite-plugin-windicss: ^1.5.1
   windicss: ^3.2.1
 
 dependencies:
   '@solid-primitives/debounce': 1.0.2
-  '@solid-primitives/event-listener': 1.1.3_solid-js@1.2.1
+  '@solid-primitives/event-listener': 1.2.3
   '@solid-primitives/fetch': 0.0.106
   '@solid-primitives/raf': 1.0.3
   '@solid-primitives/scroll': 0.0.100
   '@solid-primitives/storage': 0.0.106
-  '@solid-primitives/throttle': 1.0.3_solid-js@1.2.1
+  '@solid-primitives/throttle': 1.0.3_solid-js@1.2.2
   date-fns: 2.25.0
   lodash: 4.17.21
-  solid-js: 1.2.1
-  unplugin-icons: 0.12.17_vite@2.6.13
+  solid-js: 1.2.2
+  unplugin-icons: 0.12.18_vite@2.6.13
 
 devDependencies:
-  '@iconify-json/carbon': 1.0.8
+  '@iconify-json/carbon': 1.0.9
   '@types/lodash': 4.14.176
   '@types/node': 16.11.6
   sass: 1.43.4
   typescript: 4.4.4
   unplugin-auto-import: 0.4.13_vite@2.6.13
   vite: 2.6.13_sass@1.43.4
-  vite-plugin-solid: 2.1.1_sass@1.43.4
-  vite-plugin-windicss: 1.4.12_vite@2.6.13
+  vite-plugin-solid: 2.1.2_sass@1.43.4
+  vite-plugin-windicss: 1.5.1_vite@2.6.13
   windicss: 3.2.1
 
 packages:
@@ -352,8 +352,8 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@iconify-json/carbon/1.0.8:
-    resolution: {integrity: sha512-C1DJbsObX9tLdalhzt5vlmqHWm6IE+58Yu6FSw+frYVuAKcw9VjhQBpJX7WxmJNK3Wy57Y1obUnkLb8xVip3oQ==}
+  /@iconify-json/carbon/1.0.9:
+    resolution: {integrity: sha512-ZId8OBOIM8/nA+6NrpxgAWhNfVPY+hT+VlmVhZEXqwZoAkVS4ygB0bCBoanVV6OHA5wONc9hr6UnUQ990paQLA==}
     dependencies:
       '@iconify/types': 1.0.10
     dev: true
@@ -399,47 +399,45 @@ packages:
   /@solid-primitives/debounce/1.0.2:
     resolution: {integrity: sha512-EfzSg5Ajt/I9WC/vrKvw3uAlQT7XlFl8wjDhJwXSAZNFm0WR1tJIzEVCvCeZG5XO6eBbSFbMWDq2xW1GwequkQ==}
     dependencies:
-      solid-js: 1.2.1
+      solid-js: 1.2.2
     dev: false
 
-  /@solid-primitives/event-listener/1.1.3_solid-js@1.2.1:
-    resolution: {integrity: sha512-yD3/qJJ7fI/9YWOG5SGDbL+Q52dAMJw8Ny+ol2hyrujmVht8hUSeLA5pzqLTxa1O/IPwInZdyb+VH2SeUrZE+w==}
-    peerDependencies:
-      solid-js: ^1.0.7
+  /@solid-primitives/event-listener/1.2.3:
+    resolution: {integrity: sha512-O3A5fgveW81M3aQJaXezYQMbrzhMRCWvS5YkjsvYjxBzPZNWHvT/59+RVJbQluTcjwyjgcKuU2KfuIfj/sSQag==}
     dependencies:
-      solid-js: 1.2.1
+      solid-js: 1.2.2
     dev: false
 
   /@solid-primitives/fetch/0.0.106:
     resolution: {integrity: sha512-alDI7ofRbcqVZbcMKRr6ZhmYIdJKgsFm9yreGHB9Oe4z20SrGEtrD5g/kSf+DTvdurZejZSi2CeSabGm9sS66g==}
     dependencies:
-      solid-js: 1.2.1
+      solid-js: 1.2.2
     dev: false
 
   /@solid-primitives/raf/1.0.3:
     resolution: {integrity: sha512-oKTcGQ0DVNvPMB87m4Amakll75R8yfX6UojiiEaKPEGx26gp22pjVKz4C2q6XSo1xHK2TNv1oA5WxF/A1eQnCg==}
     dependencies:
-      solid-js: 1.2.1
+      solid-js: 1.2.2
     dev: false
 
   /@solid-primitives/scroll/0.0.100:
     resolution: {integrity: sha512-4rw8nADcLrbpKc+fmwD3RuRMqNdlZXhG0cE9MSW7m9TUzbq3wHZMBbYBUY23aZYf0E+WiYTxMKWOvIjpPGcTsw==}
     dependencies:
-      solid-js: 1.2.1
+      solid-js: 1.2.2
     dev: false
 
   /@solid-primitives/storage/0.0.106:
     resolution: {integrity: sha512-F37EK0UjSTzOqOF7hYlTcrAgL/91fYi+ssnUs7DYIpREuueDU+p+VdeHqLu+crm0ry0Yv6ppagMlW9yFtzP6xg==}
     dependencies:
-      solid-js: 1.2.1
+      solid-js: 1.2.2
     dev: false
 
-  /@solid-primitives/throttle/1.0.3_solid-js@1.2.1:
+  /@solid-primitives/throttle/1.0.3_solid-js@1.2.2:
     resolution: {integrity: sha512-LSzB4K/GoeCd7euAhci2f2aCwEf4CNIlZiCWlxbdUmINBAUO7eHUcEdaIba6OftldztyMMiX9UZh59xV8phmmg==}
     peerDependencies:
       solid-js: ^1.1.6
     dependencies:
-      solid-js: 1.2.1
+      solid-js: 1.2.2
     dev: false
 
   /@types/lodash/4.14.176:
@@ -453,8 +451,8 @@ packages:
   /@types/throttle-debounce/2.1.0:
     resolution: {integrity: sha512-5eQEtSCoESnh2FsiLTxE121IiE60hnMqcb435fShf4bpLRjEu1Eoekht23y6zXS9Ts3l+Szu3TARnTsA0GkOkQ==}
 
-  /@windicss/config/1.4.12:
-    resolution: {integrity: sha512-+ckfkRoWC8wia5o7iCyDmydiJEkjX6lVEb6a2QVPI9WQ9Mi7hqfgOoStijOsEn0wIz95FDiOfVe5aSb1V4jEtw==}
+  /@windicss/config/1.5.1:
+    resolution: {integrity: sha512-nWNgvvJj9RcYhLcqwju/Z8FfaHRjyWHDYS3IgY7lWUM+vWTLFuKqhavKfC1589kdYjiO9JeX07Vg+YzfcxP0Yw==}
     dependencies:
       debug: 4.3.2
       jiti: 1.12.9
@@ -463,11 +461,11 @@ packages:
       - supports-color
     dev: true
 
-  /@windicss/plugin-utils/1.4.12:
-    resolution: {integrity: sha512-ixYflwELxEjHyh0B9HqTwDp1d3v5IWtUucVY84o41ZU53BkuRw1lKbNlLMqbrtbk8p8rAQxjuwWZkWxFYi77tQ==}
+  /@windicss/plugin-utils/1.5.1:
+    resolution: {integrity: sha512-gxJiTCMKv1p1x4W2BLG2yfNe+DfIVPc8+aKvfCUCtOpdg5GB5yzhuAC4ROsKiXHxu4QXoojrh7jXH6ELlrELpQ==}
     dependencies:
       '@antfu/utils': 0.3.0
-      '@windicss/config': 1.4.12
+      '@windicss/config': 1.5.1
       debug: 4.3.2
       fast-glob: 3.2.7
       magic-string: 0.25.7
@@ -499,8 +497,8 @@ packages:
       picomatch: 2.3.0
     dev: true
 
-  /babel-plugin-jsx-dom-expressions/0.30.3_@babel+core@7.16.0:
-    resolution: {integrity: sha512-Fk55GdbSkgG2Ks4bVYx5Zgyp9fL7uJFslpWRLytr1C95uzD4FJgm/Le1pRUlK5E2ZNFrhEQPmOdYMLpoxxtCGw==}
+  /babel-plugin-jsx-dom-expressions/0.30.5_@babel+core@7.16.0:
+    resolution: {integrity: sha512-Fvyuyx5ggORiCiwsce9ZKeveZBcjtafPBuse3fL1kVY6yv/EnyFFBaFs4WWx/or4LtrJzEqSFDv83te0M6Zt8g==}
     dependencies:
       '@babel/helper-module-imports': 7.16.0
       '@babel/plugin-syntax-jsx': 7.16.0_@babel+core@7.16.0
@@ -510,10 +508,10 @@ packages:
       - '@babel/core'
     dev: true
 
-  /babel-preset-solid/1.2.1_@babel+core@7.16.0:
-    resolution: {integrity: sha512-YQtApioM+V//u4sLhhCOYp+UBukzHMfv71wYV/L3I3JzjwhZODGFXfMW9ZOE6AvfncX5pTfSSTQm1TtLkSCjWQ==}
+  /babel-preset-solid/1.2.2_@babel+core@7.16.0:
+    resolution: {integrity: sha512-63B6JKX+Sk/XRkbFD7RsZtkhR0/pZ0eSNnbzyQTP4Xsj1NFACeW5XG1ycheQZK+/qhsCuhELjNcqnoIAj8gcsA==}
     dependencies:
-      babel-plugin-jsx-dom-expressions: 0.30.3_@babel+core@7.16.0
+      babel-plugin-jsx-dom-expressions: 0.30.5_@babel+core@7.16.0
     transitivePeerDependencies:
       - '@babel/core'
     dev: true
@@ -535,8 +533,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001274
-      electron-to-chromium: 1.3.887
+      caniuse-lite: 1.0.30001278
+      electron-to-chromium: 1.3.889
       escalade: 3.1.1
       node-releases: 2.0.1
       picocolors: 1.0.0
@@ -547,8 +545,8 @@ packages:
     dependencies:
       semver: 7.3.5
 
-  /caniuse-lite/1.0.30001274:
-    resolution: {integrity: sha512-+Nkvv0fHyhISkiMIjnyjmf5YJcQ1IQHZN6U9TLUMroWR38FNwpsC51Gb68yueafX1V6ifOisInSgP9WJFS13ew==}
+  /caniuse-lite/1.0.30001278:
+    resolution: {integrity: sha512-mpF9KeH8u5cMoEmIic/cr7PNS+F5LWBk0t2ekGT60lFf0Wq+n9LspAj0g3P+o7DQhD3sUdlMln4YFAWhFYn9jg==}
     dev: true
 
   /chalk/2.4.2:
@@ -635,8 +633,8 @@ packages:
     dependencies:
       ms: 2.1.2
 
-  /electron-to-chromium/1.3.887:
-    resolution: {integrity: sha512-QQUumrEjFDKSVYVdaeBmFdyQGoaV+fCSMyWHvfx/u22bRHSTeBQYt6P4jMY+gFd4kgKB9nqk7RMtWkDB49OYPA==}
+  /electron-to-chromium/1.3.889:
+    resolution: {integrity: sha512-suEUoPTD1mExjL9TdmH7cvEiWJVM2oEiAi+Y1p0QKxI2HcRlT44qDTP2c1aZmVwRemIPYOpxmV7CxQCOWcm4XQ==}
     dev: true
 
   /esbuild-android-arm64/0.13.12:
@@ -1224,15 +1222,15 @@ packages:
     resolution: {integrity: sha512-KWcOiKeQj6ZyXx7zq4YxSMgHRlod4czeBQZrPb8OKcohcqAXShm7E20kEMle9WBt26hFcAf0qLOcp5zmY7kOqQ==}
     dev: false
 
-  /solid-js/1.2.1:
-    resolution: {integrity: sha512-Ooi8lYHc08IDRDAPcT5faPSVjqLo6sfIY58TG/PQLwwEt59jakw67Q8qx/csSyCqLmPD8fAFyzdezXKJxOKmIQ==}
+  /solid-js/1.2.2:
+    resolution: {integrity: sha512-2FtxO+bHDzS7RwGUU/aQ36VOX81e3Cf1KE4GzbySrG1huYP51zotjqLqfWbKe89nwPjXQBoxnEK5hnBfDj0O0Q==}
 
-  /solid-refresh/0.2.2_solid-js@1.2.1:
+  /solid-refresh/0.2.2_solid-js@1.2.2:
     resolution: {integrity: sha512-oQN3pUJ8fBd4ldMxZVqK7S4PGzAn1yx1B5bRRfANoxoqmHyY2QLfzrOzXsYnAkhh272K+W24oKgFWlmdUZ6HtQ==}
     peerDependencies:
       solid-js: ^1.0.0
     dependencies:
-      solid-js: 1.2.1
+      solid-js: 1.2.2
     dev: true
 
   /source-map-js/0.6.2:
@@ -1304,15 +1302,15 @@ packages:
       local-pkg: 0.1.0
       magic-string: 0.25.7
       resolve: 1.20.0
-      unplugin: 0.2.19_vite@2.6.13
+      unplugin: 0.2.20_vite@2.6.13
     transitivePeerDependencies:
       - rollup
       - vite
       - webpack
     dev: true
 
-  /unplugin-icons/0.12.17_vite@2.6.13:
-    resolution: {integrity: sha512-y6KNKlwcLXlbfpZY48lO0blsH/uwHbvxD2sgCaw1AhgFk9Bjw7hA1kQxhUWPAIRySeobve2YP7HGKLHoIctXPA==}
+  /unplugin-icons/0.12.18_vite@2.6.13:
+    resolution: {integrity: sha512-o2nc6AGGk4StTx5xMTndVBylszRg/hJvHMO1eEFfrfw9yh+eedre2S4F8EHltn3FjADL2a17GpXcvCAwmONgXA==}
     peerDependencies:
       '@svgr/core': ^5.5.0
       '@vue/compiler-sfc': ^3.0.2
@@ -1334,7 +1332,7 @@ packages:
       debug: 4.3.2
       kolorist: 1.5.0
       local-pkg: 0.4.0
-      unplugin: 0.2.19_vite@2.6.13
+      unplugin: 0.2.20_vite@2.6.13
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -1342,8 +1340,8 @@ packages:
       - webpack
     dev: false
 
-  /unplugin/0.2.19_vite@2.6.13:
-    resolution: {integrity: sha512-r5PDeBBecir99rhLFp1ftqIkp5afD91anweIlWtF5Ca46FJsn2kQczD93FdFJw79R6HSF5waeYo79bFOQ9GVhQ==}
+  /unplugin/0.2.20_vite@2.6.13:
+    resolution: {integrity: sha512-CGnCaTqNjqeixpIlNEkpysxfR2hb4xv21xa4IURXnhYTfCp73UWuG0KcdanuhFJbwO5w+EGK4XaAaqdb/1vWbg==}
     peerDependencies:
       rollup: ^2.50.0
       vite: ^2.3.0
@@ -1359,15 +1357,15 @@ packages:
       vite: 2.6.13_sass@1.43.4
       webpack-virtual-modules: 0.4.3
 
-  /vite-plugin-solid/2.1.1_sass@1.43.4:
-    resolution: {integrity: sha512-tzMkd0AM42Sl3uLdXSuEV4QPJychlIdX64fwHZ7iBzdWJF1HeG+JNG/IuES0IdAjpt4HC1re7pOj5uLzWTReJw==}
+  /vite-plugin-solid/2.1.2_sass@1.43.4:
+    resolution: {integrity: sha512-SK6tzjv1H+dCSItnjCHfrPX5FGiQ8btMTdw0apsYAB1BAQvAEoi5pKS+3aHF96X7IL7RlUN8DB1KgpNW8m5vQA==}
     dependencies:
       '@babel/core': 7.16.0
       '@babel/preset-typescript': 7.16.0_@babel+core@7.16.0
-      babel-preset-solid: 1.2.1_@babel+core@7.16.0
+      babel-preset-solid: 1.2.2_@babel+core@7.16.0
       merge-anything: 4.0.1
-      solid-js: 1.2.1
-      solid-refresh: 0.2.2_solid-js@1.2.1
+      solid-js: 1.2.2
+      solid-refresh: 0.2.2_solid-js@1.2.2
       vite: 2.6.13_sass@1.43.4
     transitivePeerDependencies:
       - less
@@ -1376,12 +1374,12 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-windicss/1.4.12_vite@2.6.13:
-    resolution: {integrity: sha512-5YLT7e72z1vCTSmprU/KxtRg22ySN+H19Qxy67lbG3mEbq8YbheOlmVhbqNqSv2MjFVhFqu72Q1FkkjyWENyQQ==}
+  /vite-plugin-windicss/1.5.1_vite@2.6.13:
+    resolution: {integrity: sha512-AUuRFT5Y7SfW9eclaKf5BOTZ7MMfkUZzOeVzqd9yq/uIwzWyleRtssCTuJgZ0+om+hnXn9YwcIpR26lsaasIbg==}
     peerDependencies:
       vite: ^2.0.1
     dependencies:
-      '@windicss/plugin-utils': 1.4.12
+      '@windicss/plugin-utils': 1.5.1
       chalk: 4.1.2
       debug: 4.3.2
       vite: 2.6.13_sass@1.43.4

@@ -1,5 +1,7 @@
 import { range } from 'lodash'
-import listen from '@/utils/solid/event-listener'
+// import listen from '@solid-primitives/event-listener'
+// import listen from '@/utils/solid/event-listener'
+import listen from '@/utils/solid/event-listener-rewrite'
 import MonthSection from './MonthSection'
 import { useAppStore } from '@/store/app'
 import WeekSection from './WeekSection'
@@ -40,7 +42,7 @@ const Timeline: Component = () => {
 	}
 
 	// window event listeners
-	listen('mousemove', e => {
+	listen(window, 'mousemove', e => {
 		const prevMouseX = mouseX
 		mouseX = e.x
 
@@ -50,9 +52,10 @@ const Timeline: Component = () => {
 			el()?.scrollBy({ left: drag })
 		}
 	})
-	listen('mouseup', () => (isDragging = false))
-	listen('dragend', () => (isDragging = false))
-	listen('wheel', handleWheel, document.querySelector('body') as HTMLElement, {
+	listen(window, 'mouseup', () => (isDragging = false))
+	listen(window, 'dragend', () => (isDragging = false))
+	listen(window, 'fullscreenchange', e => (isDragging = false))
+	listen(document.querySelector('body') as HTMLElement, 'wheel', handleWheel, {
 		passive: false,
 	})
 
@@ -79,12 +82,6 @@ const Timeline: Component = () => {
 							{index => <WeekSection index={index} />}
 						</For>
 					</div>
-					{/* <Switch>
-						<Match when={zoom() < 0.4}>
-						</Match>
-						<Match when={zoom() >= 0.4}>
-						</Match>
-					</Switch> */}
 				</div>
 			</div>
 		</>
