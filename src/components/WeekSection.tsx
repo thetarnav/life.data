@@ -1,23 +1,16 @@
 import { daysFirstWeek } from '@/logic/time'
 import { useAppStore } from '@/store/app'
 // import { createIntersectionObserver } from '@solid-primitives/intersection-observer'
-import { createIntersectionObserver } from '@/utils/solid/intersection-observer'
+import { createVisibilityObserver } from '@/utils/solid/intersection-observer'
 
 const WeekSection: Component<{ index: number }> = props => {
 	const { weeksOpacity } = useAppStore()
 
 	const days = props.index !== 0 ? 7 : daysFirstWeek
 
-	const [isVisible, setVisible] = createSignal(false)
-
 	let elRef!: HTMLElement
 
-	createIntersectionObserver(
-		() => [elRef],
-		([entry]) => {
-			setVisible(entry.isIntersecting)
-		},
-	)
+	const [isVisible] = createVisibilityObserver(() => elRef)
 
 	return (
 		<section

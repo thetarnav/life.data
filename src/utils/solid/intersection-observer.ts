@@ -1,4 +1,4 @@
-import { onMount, onCleanup, Accessor } from 'solid-js'
+import { onMount, onCleanup, createSignal, Accessor } from 'solid-js'
 
 export interface IntersetionObserverOptions {
 	readonly root?: Element | Document | null
@@ -94,4 +94,42 @@ export const createViewportObserver = (
 	}
 	onMount(start)
 	return { add: addEntry, remove: removeEntry, start, stop }
+}
+
+/**
+ * Creates reactive signal that changes when element's visibility changes
+ *
+ * @param element - An element to watch
+ * @param options - A Primitive and IntersectionObserver constructor options:
+ * - `root` — The Element or Document whose bounds are used as the bounding box when testing for intersection.
+ * - `rootMargin` — A string which specifies a set of offsets to add to the root's bounding_box when calculating intersections, effectively shrinking or growing the root for calculation purposes.
+ * - `threshold` — Either a single number or an array of numbers between 0.0 and 1.0, specifying a ratio of intersection area to total bounding box area for the observed target.
+ * - `initialValue` — Initial value of the signal *(default: false)*
+ * - `once` — If true: the stop function will be called automatically after visibility changes *(default: false)*
+ *
+ * @example
+ * ```ts
+ * let el!: HTMLElement
+ * const [isVisible, { start, stop }] = createVisibilityObserver(() => el, { once: true })
+ * ```
+ */
+export const createVisibilityObserver = (
+	element: Element | Accessor<Element>,
+	options?: IntersetionObserverOptions & {
+		initialValue?: boolean
+		once?: boolean
+	},
+): [Accessor<boolean>, { start: () => void; stop: () => void }] => {
+	const [isVisible, setVisible] = createSignal(options?.initialValue || false)
+	const getEl = typeof element === 'function' ? element : () => element
+	const { start, stop } = createIntersectionObserver(
+		() => [getEl()],
+		([entry]) => {
+			setVisible(entry.isIntersecting)
+			if (options?.once && entry.isIntersecting !== !!options?.initialValue)
+				stop()
+		},
+		options,
+	)
+	return [isVisible, { start, stop }]
 }
