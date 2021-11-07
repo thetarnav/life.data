@@ -1,18 +1,22 @@
 import { getMonthDays, getMonthName } from '@/logic/time'
 import { useAppStore } from '@/store/app'
-import { cellHeight } from '@/store/variables'
+import { activities, cellHeight } from '@/store/variables'
+import { createVisibilityObserver } from '@solid-primitives/intersection-observer'
 
 const MonthSection: Component<{
 	index: number
 }> = props => {
-	const { state, monthsOpacity } = useAppStore()
+	const { monthsOpacity } = useAppStore()
+
+	let elRef!: HTMLElement
 
 	return (
 		<section
+			ref={elRef}
 			class="month-section flex flex-shrink-0 items-center justify-center"
 			style={{
 				'--days': getMonthDays(props.index),
-				height: state.activities.length * cellHeight + 'px',
+				height: activities.length * cellHeight + 'px',
 			}}
 		>
 			<div class="absolute top-4 flex flex-col items-center">

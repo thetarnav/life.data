@@ -1,6 +1,6 @@
 import { onMount, onCleanup, createSignal, Accessor } from 'solid-js'
 
-export interface IntersetionObserverOptions {
+export interface IntersectionObserverOptions {
 	readonly root?: Element | Document | null
 	readonly rootMargin?: string
 	readonly threshold?: number | number[]
@@ -18,14 +18,15 @@ export interface IntersetionObserverOptions {
  *
  * @example
  * ```ts
- * const { add, remove, start, stop, observer } = createIntersectionObserver(els);
+ * const { add, remove, start, stop, observer } = createIntersectionObserver(els, entries =>
+ *   console.log(entries)
+ * );
  * ```
  */
-
 export const createIntersectionObserver = (
 	elements: Element[] | Accessor<Element[]>,
 	onChange: IntersectionObserverCallback,
-	options?: IntersetionObserverOptions,
+	options?: IntersectionObserverOptions,
 ): {
 	add: (el: Element) => void
 	remove: (el: Element) => void
@@ -47,16 +48,16 @@ export const createIntersectionObserver = (
 	return { add, remove, start, stop, observer }
 }
 
-type SetEntry = (
-	v:
-		| IntersectionObserverEntry
-		| ((prev: IntersectionObserverEntry) => IntersectionObserverEntry),
-) => IntersectionObserverEntry
+export type EntryCallback = (entry: IntersectionObserverEntry) => void
+export type AddViewportObserverEntry = (
+	el: Element,
+	setter: EntryCallback,
+) => void
+export type RemoveViewportObserverEntry = (el: Element) => void
 
 /**
  * Creates a more advanced viewport observer for complex tracking.
  *
- * @param elements - A list of elements to watch
  * @param options - IntersectionObserver constructor options:
  * - `root` — The Element or Document whose bounds are used as the bounding box when testing for intersection.
  * - `rootMargin` — A string which specifies a set of offsets to add to the root's bounding_box when calculating intersections, effectively shrinking or growing the root for calculation purposes.
@@ -64,32 +65,32 @@ type SetEntry = (
  *
  * @example
  * ```ts
- * const { add, remove, start, stop } = createIntersectionObserver(els);
+ * const { add, remove, start, stop } = createViewportObserver();
+ * add(el, e => console.log(e.isIntersecting))
  * ```
  */
 export const createViewportObserver = (
-	elements: Element[] | Accessor<Element[]> = [],
-	options?: IntersetionObserverOptions,
+	options?: IntersectionObserverOptions,
 ): {
-	add: (el: HTMLElement, setter: SetEntry) => void
-	remove: (el: HTMLElement) => void
+	add: AddViewportObserverEntry
+	remove: RemoveViewportObserverEntry
 	start: () => void
 	stop: () => void
 } => {
-	const setters = new WeakMap<Element, SetEntry>()
+	const callbacks = new WeakMap<Element, EntryCallback>()
 	const onChange = (entries: Array<IntersectionObserverEntry>) =>
-		entries.forEach(entry => setters.get(entry.target)!(entry))
+		entries.forEach(entry => callbacks.get(entry.target)!(entry))
 	const { add, remove, start, stop } = createIntersectionObserver(
-		elements,
+		[],
 		onChange,
 		options,
 	)
-	const addEntry = (el: HTMLElement, setter: SetEntry): void => {
+	const addEntry: AddViewportObserverEntry = (el, setter) => {
 		add(el)
-		setters.set(el, setter)
+		callbacks.set(el, setter)
 	}
-	const removeEntry = (el: HTMLElement) => {
-		setters.delete(el)
+	const removeEntry: RemoveViewportObserverEntry = el => {
+		callbacks.delete(el)
 		remove(el)
 	}
 	onMount(start)
@@ -115,7 +116,7 @@ export const createViewportObserver = (
  */
 export const createVisibilityObserver = (
 	element: Element | Accessor<Element>,
-	options?: IntersetionObserverOptions & {
+	options?: IntersectionObserverOptions & {
 		initialValue?: boolean
 		once?: boolean
 	},

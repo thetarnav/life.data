@@ -4,16 +4,6 @@ body,
   @apply h-screen w-screen overflow-hidden;
 }
 
-.timeline {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    background: transparent;
-  }
-}
-
 .month-section,
 .week-section {
   @apply relative h-full;
@@ -39,6 +29,9 @@ $day-width: "(0.1rem + 3.5rem * var(--zoom))";
 }
 
 .week-section {
+  will-change: width;
+  width: calc(#{$day-width} * var(--week-days, 7));
+
   .cover {
     @apply w-full h-full bg-gray-400 bg-opacity-30;
   }
@@ -47,13 +40,13 @@ $day-width: "(0.1rem + 3.5rem * var(--zoom))";
       @apply bg-gray-700 bg-opacity-30;
     }
   }
-
-  will-change: width;
-
-  width: calc(#{$day-width} * var(--week-days, 7));
 }
 
-.day-section {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

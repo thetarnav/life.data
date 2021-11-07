@@ -1,11 +1,10 @@
 import { range } from 'lodash'
-// import listen from '@solid-primitives/event-listener'
-// import listen from '@/utils/solid/event-listener'
 import listen from '@/utils/solid/event-listener-rewrite'
 import MonthSection from './MonthSection'
 import { useAppStore } from '@/store/app'
 import WeekSection from './WeekSection'
 import { daysFirstWeek, daysLastWeek, getNumberOfWeeks } from '@/logic/time'
+import { createViewportObserver } from '@/utils/solid/intersection-observer'
 
 const Timeline: Component = () => {
 	const { state, zoom, updateZoom, weeksOpacity } = useAppStore()
@@ -59,9 +58,11 @@ const Timeline: Component = () => {
 		passive: false,
 	})
 
+	const { add: addObservedRef, remove: removeObservedRef } =
+		createViewportObserver({ threshold: 0.2 })
+
 	const Weeks = () => {
 		let dayIndex = 0
-
 		return (
 			<For each={range(getNumberOfWeeks())}>
 				{i => {
@@ -73,11 +74,14 @@ const Timeline: Component = () => {
 							: 7
 					const firstDayIndex = dayIndex
 					dayIndex += days
+
 					return (
 						<WeekSection
 							index={i}
 							days={days}
 							firstDayIndex={firstDayIndex}
+							addEntry={addObservedRef}
+							removeEntry={removeObservedRef}
 						/>
 					)
 				}}
@@ -90,13 +94,13 @@ const Timeline: Component = () => {
 			<div class="fixed z-50 left-4 top-4"></div>
 			<div
 				ref={setEl}
-				class="timeline w-full overflow-x-scroll bg-gray-100 my-auto border-t border-b border-dark-100 select-none"
+				class="hide-scrollbar w-screen h-screen flex overflow-x-scroll my-auto select-none"
 				style={`--zoom: ${zoom()}`}
 				onMouseDown={() => (isDragging = true)}
 			>
 				<div
 					ref={setContentWrapper}
-					class="relative px-84 w-max box-content"
+					class="relative my-auto px-84 w-max box-content border-t border-b border-dark-100 bg-gray-100"
 				>
 					<div class="flex">
 						<For each={range(state.nMonths)}>

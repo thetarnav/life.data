@@ -8,7 +8,6 @@ import { getNumberOfMonths } from '@/logic/time'
 interface AppStoreState {
 	nMonths: number
 	zoom: number
-	activities: string[]
 }
 
 type AppStore = {
@@ -28,19 +27,6 @@ export const AppStoreProvider: Component = props => {
 	const [state, setState] = createStore<AppStoreState>({
 		nMonths: getNumberOfMonths(),
 		zoom: 0,
-		activities: [
-			'sport',
-			'work-out',
-			'walking',
-			'meditation',
-			'reading',
-			'learning',
-			'drawing',
-			'photography',
-			'graphics',
-			'design',
-			'programming',
-		],
 	})
 
 	const zoom = createMemo(() => easing(state.zoom))
