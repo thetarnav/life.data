@@ -4,6 +4,7 @@ import {
 	nextMonday,
 	differenceInDays,
 	previousMonday,
+	addDays,
 } from 'date-fns'
 import { enGB } from 'date-fns/locale'
 
@@ -14,7 +15,7 @@ import {
 } from 'date-fns/fp'
 import { random } from 'lodash'
 
-const now = new Date(Date.now())
+const now = new Date()
 
 export const startDate = new Date(
 	`${random(2018, 2020)}.${random(1, 12)}.${random(1, 28)}`,
@@ -22,7 +23,7 @@ export const startDate = new Date(
 export const daysFirstMonth =
 	getDaysInMonth(startDate) - startDate.getDate() + 1
 export const daysFirstWeek = differenceInDays(nextMonday(startDate), startDate)
-export const daysLastWeek = now.getDay()
+export const daysLastWeek = now.getDay() || 7
 
 export const dateToString = (date: number | Date) => format(date, 'd MMM yyyy')
 
@@ -41,5 +42,7 @@ export const getMonthDays = (i: number) =>
 
 export const getMonthName = (i: number): string =>
 	format(getMonthDate(i), 'MMM')
+
+export const getDateByIndex = (i: number): Date => addDays(startDate, i)
 
 console.log(dateToString(startDate), getNumberOfMonths(), getNumberOfDays())

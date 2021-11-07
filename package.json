@@ -25,7 +25,7 @@
     "@solid-primitives/debounce": "^1.0.2",
     "@solid-primitives/event-listener": "^1.2.3",
     "@solid-primitives/fetch": "^0.0.106",
-    "@solid-primitives/intersection-observer": "^0.0.108",
+    "@solid-primitives/intersection-observer": "^1.0.0",
     "@solid-primitives/raf": "^1.0.3",
     "@solid-primitives/scroll": "^0.0.100",
     "@solid-primitives/storage": "^0.0.106",

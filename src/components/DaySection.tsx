@@ -1,15 +1,20 @@
+import { dateToString, getDateByIndex } from '@/logic/time'
 import { useAppStore } from '@/store/app'
 
-const DaySection: Component = props => {
+const DaySection: Component<{
+	index: number
+}> = props => {
 	const { daysOpacity } = useAppStore()
+	const date = getDateByIndex(props.index)
+
 	return (
 		<section
-			class="day-section border-r border-orange-400"
+			class="day-section border-r border-orange-400 "
 			style={{
 				opacity: daysOpacity(),
 			}}
 		>
-			Day
+			{props.index} — {dateToString(date)}
 		</section>
 	)
 }

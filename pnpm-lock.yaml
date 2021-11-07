@@ -5,7 +5,7 @@ specifiers:
   '@solid-primitives/debounce': ^1.0.2
   '@solid-primitives/event-listener': ^1.2.3
   '@solid-primitives/fetch': ^0.0.106
-  '@solid-primitives/intersection-observer': ^0.0.108
+  '@solid-primitives/intersection-observer': ^1.0.0
   '@solid-primitives/raf': ^1.0.3
   '@solid-primitives/scroll': ^0.0.100
   '@solid-primitives/storage': ^0.0.106
@@ -28,7 +28,7 @@ dependencies:
   '@solid-primitives/debounce': 1.0.2
   '@solid-primitives/event-listener': 1.2.3
   '@solid-primitives/fetch': 0.0.106
-  '@solid-primitives/intersection-observer': 0.0.108_solid-js@1.2.2
+  '@solid-primitives/intersection-observer': 1.0.0_solid-js@1.2.2
   '@solid-primitives/raf': 1.0.3
   '@solid-primitives/scroll': 0.0.100
   '@solid-primitives/storage': 0.0.106
@@ -416,8 +416,8 @@ packages:
       solid-js: 1.2.2
     dev: false
 
-  /@solid-primitives/intersection-observer/0.0.108_solid-js@1.2.2:
-    resolution: {integrity: sha512-TYp40QNFQ3xkdUpWyu82HL/RnKsKsMG4yO0bonfQZC3d1USwJ2P/bwr/xOwyVlsxb5EQGc+71I16t8+6jihTDQ==}
+  /@solid-primitives/intersection-observer/1.0.0_solid-js@1.2.2:
+    resolution: {integrity: sha512-/dym3xmpUhsutT1kBRK7u9tSL7Rt6i+FpVxHfBOiDzosJgNDHowyvFThW095q907RJu0ZrMcxTc+hPF5E2HqEw==}
     peerDependencies:
       solid-js: ^1.0.6
     dependencies:
@@ -507,8 +507,8 @@ packages:
       picomatch: 2.3.0
     dev: true
 
-  /babel-plugin-jsx-dom-expressions/0.30.5_@babel+core@7.16.0:
-    resolution: {integrity: sha512-Fvyuyx5ggORiCiwsce9ZKeveZBcjtafPBuse3fL1kVY6yv/EnyFFBaFs4WWx/or4LtrJzEqSFDv83te0M6Zt8g==}
+  /babel-plugin-jsx-dom-expressions/0.30.6_@babel+core@7.16.0:
+    resolution: {integrity: sha512-pW48ZnYctKbbY3HfLCs8d1D2inDXu4M08NdfzLRNuegg28uHsa52XG5aHIx618WZmQ8h13VPYzDo0FaMNByeIw==}
     dependencies:
       '@babel/helper-module-imports': 7.16.0
       '@babel/plugin-syntax-jsx': 7.16.0_@babel+core@7.16.0
@@ -521,7 +521,7 @@ packages:
   /babel-preset-solid/1.2.2_@babel+core@7.16.0:
     resolution: {integrity: sha512-63B6JKX+Sk/XRkbFD7RsZtkhR0/pZ0eSNnbzyQTP4Xsj1NFACeW5XG1ycheQZK+/qhsCuhELjNcqnoIAj8gcsA==}
     dependencies:
-      babel-plugin-jsx-dom-expressions: 0.30.5_@babel+core@7.16.0
+      babel-plugin-jsx-dom-expressions: 0.30.6_@babel+core@7.16.0
     transitivePeerDependencies:
       - '@babel/core'
     dev: true
@@ -544,7 +544,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001278
-      electron-to-chromium: 1.3.889
+      electron-to-chromium: 1.3.890
       escalade: 3.1.1
       node-releases: 2.0.1
       picocolors: 1.0.0
@@ -643,8 +643,8 @@ packages:
     dependencies:
       ms: 2.1.2
 
-  /electron-to-chromium/1.3.889:
-    resolution: {integrity: sha512-suEUoPTD1mExjL9TdmH7cvEiWJVM2oEiAi+Y1p0QKxI2HcRlT44qDTP2c1aZmVwRemIPYOpxmV7CxQCOWcm4XQ==}
+  /electron-to-chromium/1.3.890:
+    resolution: {integrity: sha512-VWlVXSkv0cA/OOehrEyqjUTHwV8YXCPTfPvbtoeU2aHR21vI4Ejh5aC4AxUwOmbLbBgb6Gd3URZahoCxtBqCYQ==}
     dev: true
 
   /esbuild-android-arm64/0.13.12:

@@ -5,7 +5,7 @@ import listen from '@/utils/solid/event-listener-rewrite'
 import MonthSection from './MonthSection'
 import { useAppStore } from '@/store/app'
 import WeekSection from './WeekSection'
-import { getNumberOfWeeks } from '@/logic/time'
+import { daysFirstWeek, daysLastWeek, getNumberOfWeeks } from '@/logic/time'
 
 const Timeline: Component = () => {
 	const { state, zoom, updateZoom, weeksOpacity } = useAppStore()
@@ -59,34 +59,53 @@ const Timeline: Component = () => {
 		passive: false,
 	})
 
+	const Weeks = () => {
+		let dayIndex = 0
+
+		return (
+			<For each={range(getNumberOfWeeks())}>
+				{i => {
+					const days =
+						i === 0
+							? daysFirstWeek
+							: i === getNumberOfWeeks() - 1
+							? daysLastWeek
+							: 7
+					const firstDayIndex = dayIndex
+					dayIndex += days
+					return (
+						<WeekSection
+							index={i}
+							days={days}
+							firstDayIndex={firstDayIndex}
+						/>
+					)
+				}}
+			</For>
+		)
+	}
+
 	return (
 		<>
 			<div class="fixed z-50 left-4 top-4"></div>
 			<div
 				ref={setEl}
-				class="w-full overflow-x-scroll bg-gray-100 my-auto border-t border-b border-dark-100 select-none"
+				class="timeline w-full overflow-x-scroll bg-gray-100 my-auto border-t border-b border-dark-100 select-none"
 				style={`--zoom: ${zoom()}`}
 				onMouseDown={() => (isDragging = true)}
 			>
 				<div
 					ref={setContentWrapper}
-					class="relative px-84 my-16 w-max h-[70vh] box-content"
+					class="relative px-84 w-max box-content"
 				>
-					<div class="flex h-full">
+					<div class="flex">
 						<For each={range(state.nMonths)}>
 							{index => <MonthSection index={index} />}
 						</For>
 					</div>
 					<Show when={weeksOpacity() > 0}>
 						<div class="absolute top-0 left-84 flex h-full">
-							<For each={range(getNumberOfWeeks())}>
-								{i => (
-									<WeekSection
-										index={i}
-										isLast={i === getNumberOfWeeks() - 1}
-									/>
-								)}
-							</For>
+							<Weeks />
 						</div>
 					</Show>
 				</div>
