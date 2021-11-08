@@ -1,10 +1,29 @@
 import { useAppStore } from '@/store/app'
+import { wait } from '@/utils/general'
 import type {
 	AddViewportObserverEntry,
 	RemoveViewportObserverEntry,
 } from '@/utils/solid/intersection-observer'
-import { range } from 'lodash'
+import { random, range } from 'lodash'
+import { createResource } from 'solid-js'
 import DaySection from './DaySection'
+
+const Days: Component<{ firstDayIndex: number; nDays: number }> = props => {
+	let dayIndex = props.firstDayIndex
+
+	const fetchData = async () => {
+		await wait(random(300, 1000))
+		return true
+	}
+
+	const [daysData] = createResource(fetchData)
+
+	return (
+		<For each={range(props.nDays)}>
+			{i => <DaySection index={dayIndex++} data={daysData()} />}
+		</For>
+	)
+}
 
 const WeekSection: Component<{
 	index: number
@@ -13,7 +32,7 @@ const WeekSection: Component<{
 	addEntry: AddViewportObserverEntry
 	removeEntry: RemoveViewportObserverEntry
 }> = props => {
-	const { weeksOpacity, daysOpacity } = useAppStore()
+	const { daysOpacity } = useAppStore()
 
 	const [isVisible, setVisible] = createSignal(false)
 
@@ -27,7 +46,7 @@ const WeekSection: Component<{
 			ref={elRef}
 			class="week-section flex flex-shrink-0 items-center justify-center transition-base duration-300"
 			style={{
-				opacity: isVisible() ? weeksOpacity() : 0,
+				opacity: isVisible() ? ('var(--weeks-opacity)' as any) : 0,
 				'--week-days': props.days,
 				transform: isVisible() ? '' : 'translateY(-64px)',
 			}}
@@ -41,14 +60,12 @@ const WeekSection: Component<{
 				}}
 			>
 				<Show when={isVisible() && daysOpacity() > 0}>
-					{() => {
-						let dayIndex = props.firstDayIndex
-						return (
-							<For each={range(props.days)}>
-								{i => <DaySection index={dayIndex++} />}
-							</For>
-						)
-					}}
+					<Suspense>
+						<Days
+							nDays={props.days}
+							firstDayIndex={props.firstDayIndex}
+						/>
+					</Suspense>
 				</Show>
 			</div>
 		</section>

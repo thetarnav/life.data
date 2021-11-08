@@ -9,7 +9,7 @@ body,
   @apply relative h-full;
 }
 
-$day-width: "(0.1rem + 3.5rem * var(--zoom))";
+$day-width: "(0.1rem + 3.9rem * var(--zoom))";
 
 .month-section {
   outline: 2px solid black;
@@ -40,6 +40,10 @@ $day-width: "(0.1rem + 3.5rem * var(--zoom))";
       @apply bg-gray-700 bg-opacity-30;
     }
   }
+}
+
+.day-section {
+  opacity: var(--days-opacity);
 }
 
 @keyframes fade {

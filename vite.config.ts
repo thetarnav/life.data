@@ -27,6 +27,7 @@ export default defineConfig({
 						'createSignal',
 						'createComputed',
 						'createMemo',
+						'createResource',
 						'on',
 						'untrack',
 						// utils
@@ -39,6 +40,7 @@ export default defineConfig({
 						// components
 						'Suspense',
 						'For',
+						'Index',
 						'Show',
 						'Switch',
 						'Match',

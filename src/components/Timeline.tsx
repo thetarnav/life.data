@@ -7,7 +7,7 @@ import { daysFirstWeek, daysLastWeek, getNumberOfWeeks } from '@/logic/time'
 import { createViewportObserver } from '@/utils/solid/intersection-observer'
 
 const Timeline: Component = () => {
-	const { state, zoom, updateZoom, weeksOpacity } = useAppStore()
+	const { state, zoom, updateZoom, weeksOpacity, daysOpacity } = useAppStore()
 
 	// content wrapper padding: 16rem
 	const pad =
@@ -95,7 +95,11 @@ const Timeline: Component = () => {
 			<div
 				ref={setEl}
 				class="hide-scrollbar w-screen h-screen flex overflow-x-scroll my-auto select-none"
-				style={`--zoom: ${zoom()}`}
+				style={{
+					'--zoom': zoom(),
+					'--weeks-opacity': weeksOpacity(),
+					'--days-opacity': daysOpacity(),
+				}}
 				onMouseDown={() => (isDragging = true)}
 			>
 				<div
