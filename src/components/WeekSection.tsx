@@ -1,9 +1,6 @@
 import { useAppStore } from '@/store/app'
 import { wait } from '@/utils/general'
-import type {
-	AddViewportObserverEntry,
-	RemoveViewportObserverEntry,
-} from '@/utils/solid/intersection-observer'
+import { useViewportObserver } from './Timeline'
 import { random, range } from 'lodash'
 import { createResource } from 'solid-js'
 import DaySection from './DaySection'
@@ -29,17 +26,11 @@ const WeekSection: Component<{
 	index: number
 	days: number
 	firstDayIndex: number
-	addEntry: AddViewportObserverEntry
-	removeEntry: RemoveViewportObserverEntry
 }> = props => {
 	const { daysOpacity } = useAppStore()
 
-	const [isVisible, setVisible] = createSignal(false)
-
 	let elRef!: HTMLElement
-
-	onMount(() => props.addEntry(elRef, e => setVisible(e.isIntersecting)))
-	onCleanup(() => props.removeEntry(elRef))
+	const [isVisible] = useViewportObserver(() => elRef)
 
 	return (
 		<section

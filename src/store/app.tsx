@@ -37,8 +37,8 @@ export const AppStoreProvider: Component = props => {
 	const monthsOpacity = createMemo(() =>
 		flipP(clamp(valToP(zoom(), 0.05, 0.3), 0, 1)),
 	)
-	const weeksOpacity = createMemo(() => clamp(valToP(zoom(), 0.1, 0.4), 0, 1))
-	const daysOpacity = createMemo(() => clamp(valToP(zoom(), 0.5, 0.8), 0, 1))
+	const weeksOpacity = createMemo(() => clamp(valToP(zoom(), 0.1, 0.35), 0, 1))
+	const daysOpacity = createMemo(() => clamp(valToP(zoom(), 0.65, 0.9), 0, 1))
 
 	const store: AppStore = {
 		state,

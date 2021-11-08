@@ -10,7 +10,7 @@ const DaySection: Component<{
 
 	return (
 		<section class="day-section relative grid">
-			<p class="absolute write-vertical-right text-red-500">
+			<p class="absolute z-10 write-vertical-right text-red-500">
 				{props.index} — {dateToString(date)}
 			</p>
 			<Show when={props.data}>
@@ -18,7 +18,7 @@ const DaySection: Component<{
 				<Index each={activities}>
 					{activity => (
 						<div
-							class="w-16 h-16 center-child text-gray-500 border-r border-b border-gray-700"
+							class="w-16 h-16 center-child text-gray-500 border-r border-b border-gray-700 hover:bg-orange-400"
 							style={{
 								animation: 'fade 300ms both',
 							}}

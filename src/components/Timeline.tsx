@@ -4,7 +4,11 @@ import MonthSection from './MonthSection'
 import { useAppStore } from '@/store/app'
 import WeekSection from './WeekSection'
 import { daysFirstWeek, daysLastWeek, getNumberOfWeeks } from '@/logic/time'
-import { createViewportObserver } from '@/utils/solid/intersection-observer'
+import { createViewportObserverProvider } from '@/utils/solid/ViewportObserver'
+
+const [ViewportObserverProvider, useViewportObserver] =
+	createViewportObserverProvider({ threshold: 0.2 })
+export { useViewportObserver }
 
 const Timeline: Component = () => {
 	const { state, zoom, updateZoom, weeksOpacity, daysOpacity } = useAppStore()
@@ -32,7 +36,7 @@ const Timeline: Component = () => {
 			(container.scrollWidth - 2 * pad)
 
 		// vertical scrolling zooms the timeline
-		updateZoom(-e.deltaY / 4000)
+		updateZoom(-e.deltaY / 3500)
 		// this effects DOM immediately, causing the mouse to be in different position relatively to the timeline's content
 
 		const newSL = prevP * (container.scrollWidth - 2 * pad) - mouseX + pad
@@ -58,9 +62,6 @@ const Timeline: Component = () => {
 		passive: false,
 	})
 
-	const { add: addObservedRef, remove: removeObservedRef } =
-		createViewportObserver({ threshold: 0.2 })
-
 	const Weeks = () => {
 		let dayIndex = 0
 		return (
@@ -80,8 +81,6 @@ const Timeline: Component = () => {
 							index={i}
 							days={days}
 							firstDayIndex={firstDayIndex}
-							addEntry={addObservedRef}
-							removeEntry={removeObservedRef}
 						/>
 					)
 				}}
@@ -106,16 +105,18 @@ const Timeline: Component = () => {
 					ref={setContentWrapper}
 					class="relative my-auto px-84 w-max box-content border-t border-b border-dark-100 bg-gray-100"
 				>
-					<div class="flex">
-						<For each={range(state.nMonths)}>
-							{index => <MonthSection index={index} />}
-						</For>
-					</div>
-					<Show when={weeksOpacity() > 0}>
-						<div class="absolute top-0 left-84 flex h-full">
-							<Weeks />
+					<ViewportObserverProvider>
+						<div class="flex">
+							<For each={range(state.nMonths)}>
+								{index => <MonthSection index={index} />}
+							</For>
 						</div>
-					</Show>
+						<Show when={weeksOpacity() > 0}>
+							<div class="absolute top-0 left-84 flex h-full">
+								<Weeks />
+							</div>
+						</Show>
+					</ViewportObserverProvider>
 				</div>
 			</div>
 		</>

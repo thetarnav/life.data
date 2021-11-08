@@ -9,7 +9,6 @@ export const activities = [
 	'walking',
 	'meditation',
 	'reading',
-	'learning',
 	'drawing',
 	'photography',
 	'graphics',
