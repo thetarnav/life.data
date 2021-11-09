@@ -1,7 +1,6 @@
 import { getMonthDays, getMonthName } from '@/logic/time'
 import { useAppStore } from '@/store/app'
 import { activities, cellHeight } from '@/store/variables'
-import { createVisibilityObserver } from '@solid-primitives/intersection-observer'
 
 const MonthSection: Component<{
 	index: number

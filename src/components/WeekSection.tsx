@@ -4,20 +4,29 @@ import { useViewportObserver } from './Timeline'
 import { random, range } from 'lodash'
 import { createResource } from 'solid-js'
 import DaySection from './DaySection'
+import { fetchDaysData } from '@/logic/api'
 
 const Days: Component<{ firstDayIndex: number; nDays: number }> = props => {
 	let dayIndex = props.firstDayIndex
 
-	const fetchData = async () => {
-		await wait(random(300, 1000))
-		return true
+	const fetcher = async () => {
+		try {
+			const data = await fetchDaysData(
+				props.firstDayIndex,
+				props.firstDayIndex + props.nDays - 1,
+			)
+			return data
+		} catch (error) {
+			console.log(error)
+			return undefined
+		}
 	}
 
-	const [daysData] = createResource(fetchData)
+	const [daysData] = createResource(fetcher)
 
 	return (
 		<For each={range(props.nDays)}>
-			{i => <DaySection index={dayIndex++} data={daysData()} />}
+			{i => <DaySection index={dayIndex++} data={daysData()?.[i]} />}
 		</For>
 	)
 }

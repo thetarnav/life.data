@@ -33,13 +33,10 @@ export type EventListenerProps<
 declare module 'solid-js' {
 	namespace JSX {
 		interface Directives {
-			createEventListener: (
-				ref: HTMLElement,
-				props: Accessor<EventListenerProps>,
-			) => [
-				add: (target: EventTarget) => void,
-				remove: (target: EventTarget) => void,
-			]
+			// directive types are very premissive to prevent type errors from incompatible types, since props cannot be generic
+			createEventListener:
+				| [string, (e: any) => void, boolean | AddEventListenerOptions]
+				| [string, (e: any) => void]
 		}
 	}
 }
@@ -64,7 +61,7 @@ export type E = JSX.Element
  * );
  *
  * // or as a directive
- * <MyButton use:createEventListener={() => ['click', () => console.log("Click")]}>Click!</MyButton>
+ * <MyButton use:createEventListener={['click', (e) => console.log("Click")]}>Click!</MyButton>
  *
  * // you can provide your own event map type:
  * createEventListener<{ myCustomEvent: Event }>(window, 'myCustomEvent', () => console.log("yup!"));
@@ -73,7 +70,7 @@ export type E = JSX.Element
 
 // Overload 1: window target
 export function createEventListener<
-	E extends WindowEventMap = WindowEventMap,
+	E extends WindowEventMap | Record<string, Event> = WindowEventMap,
 	K extends keyof E = keyof E,
 >(
 	target: Window,
@@ -84,7 +81,7 @@ export function createEventListener<
 
 // Overload 2: document target
 export function createEventListener<
-	E extends DocumentEventMap = DocumentEventMap,
+	E extends DocumentEventMap | Record<string, Event> = DocumentEventMap,
 	K extends keyof E = keyof E,
 >(
 	target: Document,

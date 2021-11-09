@@ -10,8 +10,6 @@ import {
 type ContextState = {
 	add: AddViewportObserverEntry
 	remove: RemoveViewportObserverEntry
-	start: () => void
-	stop: () => void
 }
 
 type ViewportObserverProvider = Component<{
@@ -23,36 +21,36 @@ type UseViewportObserver = (
 	onChange?: EntryCallback,
 ) => [Accessor<boolean>]
 
-const createViewportObserverProvider = (
+export const createViewportObserverProvider = (
 	options?: IntersectionObserverOptions,
 ): [ViewportObserverProvider, UseViewportObserver] => {
 	const ViewportObserverContext = createContext<ContextState>()
 
 	const provider: ViewportObserverProvider = props => {
-		const methods = createViewportObserver(props.options ?? options)
+		const [add, { remove }] = createViewportObserver(props.options ?? options)
 		return (
-			<ViewportObserverContext.Provider value={methods}>
+			<ViewportObserverContext.Provider value={{ add, remove }}>
 				{props.children}
 			</ViewportObserverContext.Provider>
 		)
 	}
 
 	const useHook: UseViewportObserver = (el, onChange) => {
-		const observer = useContext(ViewportObserverContext)
-		const getEl = typeof el === 'function' ? el : () => el
 		const [visible, setVisible] = createSignal(false)
+		const context = useContext(ViewportObserverContext)
+		if (context) {
+			const getEl = typeof el === 'function' ? el : () => el
 
-		onMount(() =>
-			observer?.add(getEl(), e => {
-				setVisible(e.isIntersecting)
-				onChange?.(e)
-			}),
-		)
-		onCleanup(() => observer?.remove(getEl()))
+			onMount(() =>
+				context.add(getEl(), (e, o) => {
+					setVisible(e.isIntersecting)
+					onChange?.(e, o)
+				}),
+			)
+			onCleanup(() => context.remove(getEl()))
+		}
 		return [visible]
 	}
 
 	return [provider, useHook]
 }
-
-export { createViewportObserverProvider }
