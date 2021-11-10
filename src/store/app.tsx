@@ -8,6 +8,7 @@ import { getNumberOfMonths } from '@/logic/time'
 interface AppStoreState {
 	nMonths: number
 	zoom: number
+	maxBar: number
 }
 
 type AppStore = {
@@ -17,6 +18,7 @@ type AppStore = {
 	monthsOpacity: Accessor<number>
 	weeksOpacity: Accessor<number>
 	daysOpacity: Accessor<number>
+	updateMaxBar: (height: number) => void
 }
 
 const AppStoreContext = createContext<AppStore>()
@@ -27,10 +29,10 @@ export const AppStoreProvider: Component = props => {
 	const [state, setState] = createStore<AppStoreState>({
 		nMonths: getNumberOfMonths(),
 		zoom: 0,
+		maxBar: 10,
 	})
 
 	const zoom = createMemo(() => easing(state.zoom))
-
 	const updateZoom = (move: number) =>
 		setState('zoom', z => clamp(z + move, 0, 1))
 
@@ -40,6 +42,9 @@ export const AppStoreProvider: Component = props => {
 	const weeksOpacity = createMemo(() => clamp(valToP(zoom(), 0.1, 0.35), 0, 1))
 	const daysOpacity = createMemo(() => clamp(valToP(zoom(), 0.65, 0.9), 0, 1))
 
+	const updateMaxBar = (height: number) =>
+		setState('maxBar', p => (height > p ? height : p))
+
 	const store: AppStore = {
 		state,
 		zoom,
@@ -47,6 +52,7 @@ export const AppStoreProvider: Component = props => {
 		monthsOpacity,
 		weeksOpacity,
 		daysOpacity,
+		updateMaxBar,
 	}
 
 	return (

@@ -4,30 +4,28 @@ import { useViewportObserver } from './Timeline'
 import { random, range } from 'lodash'
 import { createResource } from 'solid-js'
 import DaySection from './DaySection'
-import { fetchDaysData } from '@/logic/api'
+import useAPI, { DayData } from '@/logic/api'
 
 const Days: Component<{ firstDayIndex: number; nDays: number }> = props => {
 	let dayIndex = props.firstDayIndex
 
-	const fetcher = async () => {
-		try {
-			const data = await fetchDaysData(
-				props.firstDayIndex,
-				props.firstDayIndex + props.nDays - 1,
-			)
-			return data
-		} catch (error) {
-			console.log(error)
-			return undefined
-		}
-	}
+	const { requestDaysData } = useAPI
 
-	const [daysData] = createResource(fetcher)
+	const [daysData, setDaysData] = createSignal<DayData[]>()
+	requestDaysData(
+		props.firstDayIndex,
+		props.firstDayIndex + props.nDays - 1,
+		setDaysData,
+	)
 
 	return (
-		<For each={range(props.nDays)}>
-			{i => <DaySection index={dayIndex++} data={daysData()?.[i]} />}
-		</For>
+		<Show when={daysData()}>
+			{data => (
+				<For each={range(props.nDays)}>
+					{i => <DaySection index={dayIndex++} data={data[i]} />}
+				</For>
+			)}
+		</Show>
 	)
 }
 
@@ -40,6 +38,9 @@ const WeekSection: Component<{
 
 	let elRef!: HTMLElement
 	const [isVisible] = useViewportObserver(() => elRef)
+
+	// const [initialTimeout, setInitialTimeout] = createSignal(false)
+	// setTimeout(() => setInitialTimeout(true), 500)
 
 	return (
 		<section
