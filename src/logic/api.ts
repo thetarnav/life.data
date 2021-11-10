@@ -2,6 +2,8 @@ import { activities, dayCacheSize } from '@/store/variables'
 import { coinFlip, wait } from '@/utils/general'
 import { cloneDeep, debounce, random } from 'lodash'
 
+import { debouncedWatch } from '@/utils/solid/watch'
+
 export type ActivityValueInt = 0 | 1 | 2 | 3 | 4
 export type ActivityValueFloat = 0 | 0.5 | 1 | 2 | 3
 
@@ -70,7 +72,7 @@ function createApiLogic() {
 		[number, number, (data: DayData[]) => void][]
 	>([])
 
-	const executeFetchDaysQueue = debounce(async () => {
+	const executeFetchDaysQueue = async () => {
 		const queue = fetchDaysQueue()
 		if (!queue.length) return
 		setFetchDaysQueue([])
@@ -92,9 +94,9 @@ function createApiLogic() {
 		} catch (error) {
 			console.log(error)
 		}
-	}, 100)
+	}
 
-	createEffect(on(fetchDaysQueue, executeFetchDaysQueue))
+	debouncedWatch(fetchDaysQueue, executeFetchDaysQueue, 100)
 
 	const requestDaysData = (
 		from: number,
