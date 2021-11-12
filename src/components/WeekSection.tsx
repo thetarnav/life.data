@@ -1,8 +1,6 @@
 import { useAppStore } from '@/store/app'
-import { wait } from '@/utils/general'
 import { useViewportObserver } from './Timeline'
-import { random, range } from 'lodash'
-import { createResource } from 'solid-js'
+import { range } from 'lodash'
 import DaySection from './DaySection'
 import useAPI, { DayData } from '@/logic/api'
 

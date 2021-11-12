@@ -3,9 +3,8 @@ import {
 	AddViewportObserverEntry,
 	createViewportObserver,
 	EntryCallback,
-	IntersectionObserverOptions,
 	RemoveViewportObserverEntry,
-} from './intersection-observer'
+} from '@solid-primitives/intersection-observer'
 
 type ContextState = {
 	add: AddViewportObserverEntry
@@ -13,7 +12,7 @@ type ContextState = {
 }
 
 type ViewportObserverProvider = Component<{
-	options?: IntersectionObserverOptions
+	options?: IntersectionObserverInit
 }>
 
 type UseViewportObserver = (
@@ -22,7 +21,7 @@ type UseViewportObserver = (
 ) => [Accessor<boolean>]
 
 export const createViewportObserverProvider = (
-	options?: IntersectionObserverOptions,
+	options?: IntersectionObserverInit,
 ): [ViewportObserverProvider, UseViewportObserver] => {
 	const ViewportObserverContext = createContext<ContextState>()
 

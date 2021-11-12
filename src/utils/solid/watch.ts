@@ -1,46 +1,42 @@
 import { debounce, throttle } from 'lodash'
 import type { DebounceSettings, ThrottleSettings } from 'lodash'
-import type { ReturnTypes, Accessor } from 'solid-js'
+import type { ReturnTypes, Accessor, Setter } from 'solid-js'
 
-type Fn = () => void
+type Fn<R = void> = () => R
+/**
+ * Infers the element type of an array
+ */
+type ElementOf<T> = T extends (infer E)[] ? E : never
 type MaybeAccessor<T> = T | Accessor<T>
 const read = <T>(val: MaybeAccessor<T>): T =>
 	typeof val === 'function' ? (val as Function)() : val
+
+const promiseTimeout = (
+	ms: number,
+	throwOnTimeout = false,
+	reason = 'Timeout',
+): Promise<void> =>
+	new Promise((resolve, reject) =>
+		throwOnTimeout
+			? setTimeout(() => reject(reason), ms)
+			: setTimeout(resolve, ms),
+	)
 
 createRoot(() => {
 	const [count, setCount] = createSignal(0)
 	const double = createMemo(() => count() * 2)
 
 	setInterval(() => {
-		setCount(p => p + 1)
+		if (count() < 10000) setCount(p => p + 1)
 	}, 1000)
 
-	const { stop, ignore } = ignorableWatch2(count, n => {
-		console.log('effect', n)
-		if (n % 2 === 0) {
-			ignore(() => {
-				console.log('* 10:')
-				setCount(p => p * 10)
-			})
-			// console.log('+ 1')
-			// setCount(p => p + 1)
-		} else {
-			// console.log('+ 1')
-			// setCount(p => p + 1)
-		}
-		if (n > 100000) stop()
-	})
-
-	// watchAtMost(
-	// 	count,
-	// 	x => {
-	// 		console.log(x)
-	// 	},
-	// 	5,
-	// )
+	// const test = async () => {
+	// 	await until(count).not.toBe(1)
+	// 	console.log([count(), double()])
+	// 	console.log('YEY')
+	// }
+	// test()
 })
-
-type EventFilter = (invoke: Function) => void
 
 export type StopWatch = Fn
 
@@ -73,11 +69,13 @@ export function watch(
 	fn: ValidWatchCallback,
 	options: WatchOptions = {},
 ): StopWatch {
-	return createRoot(stop => {
+	const stop = createRoot(stop => {
 		const { defer = true } = options
 		createEffect(on(source, fn, { defer }), options)
 		return stop
 	})
+	onCleanup(stop)
+	return stop
 }
 
 export function debouncedWatch<T extends (() => any)[], U>(
@@ -128,6 +126,7 @@ export type PausableWatchReturn = {
 	stop: Fn
 	pause: Fn
 	resume: Fn
+	toggle: Setter<boolean>
 }
 
 export type PausableWatchOptions = {
@@ -149,29 +148,29 @@ export function pausableWatch(
 	fn: ValidWatchCallback,
 	options: WatchOptions & PausableWatchOptions = {},
 ): PausableWatchReturn {
-	let { active = true } = options
-	const pause = () => (active = false)
-	const resume = () => (active = true)
-	const _fn = (...args: [any, any, any]) => active && fn(...args)
+	const [active, toggle] = createSignal(options.active ?? true)
+	const pause = () => toggle(false)
+	const resume = () => toggle(true)
+	const _fn = (...args: [any, any, any]) => active() && fn(...args)
 	const stop = watch(source, _fn, options)
-	return { stop, pause, resume }
+	return { stop, pause, resume, toggle }
 }
 
 export function watchOnce<T extends (() => any)[], U>(
 	source: WatchArrayParams<T, U>['source'],
 	fn: WatchArrayParams<T, U>['fn'],
 	options?: WatchOptions,
-): void
+): StopWatch
 export function watchOnce<T extends () => any, U>(
 	source: WatchSignalParams<T, U>['source'],
 	fn: WatchSignalParams<T, U>['fn'],
 	options?: WatchOptions,
-): void
+): StopWatch
 export function watchOnce(
 	source: any,
 	fn: ValidWatchCallback,
 	options?: WatchOptions,
-): void {
+): StopWatch {
 	const stop = watch(
 		source,
 		(...a: [any, any, any]) => {
@@ -180,6 +179,7 @@ export function watchOnce(
 		},
 		options,
 	)
+	return stop
 }
 
 export type WatchAtMostReturn = {
@@ -209,8 +209,8 @@ export function watchAtMost(
 	const stop = watch(
 		source,
 		(...a: [any, any, any]) => {
-			fn(...a)
 			setCount(p => p + 1)
+			fn(...a)
 			count() >= read(max) && stop()
 		},
 		options,
@@ -218,22 +218,12 @@ export function watchAtMost(
 	return { stop, count }
 }
 
-export type IgnorableWatchReturn = {
+type IgnorableWatchReturn = {
 	stop: Fn
-	ignore: (updater: Fn) => void
+	ignore: () => void | Setter<boolean>
+	ignoring: (updater: Fn) => void
 }
 
-/**
- * Unfortunately `ignore` method in **NOT** synchronous, unlike it's equivalent in vueuse. It's because solid's reactive system batches updates made in effects. So they cannot be ignored without defering them to the next effect.
- * ```
- * ignore(() => {
- * 	// this will run second:
- * 	setCounter(p => p * 2)
- * })
- * // this will run first:
- * setCounter(p => p + 1)
- * ```
- */
 export function ignorableWatch<T extends (() => any)[], U>(
 	source: WatchArrayParams<T, U>['source'],
 	fn: WatchArrayParams<T, U>['fn'],
@@ -249,43 +239,175 @@ export function ignorableWatch(
 	fn: ValidWatchCallback,
 	options?: WatchOptions,
 ): IgnorableWatchReturn {
-	let ignoring = false
-	const ignore = (updater: Fn) =>
-		setTimeout(() => {
-			ignoring = true
+	const [ignore, setIgnore] = createSignal(false)
+	const _fn = (...a: [any, any, any]) =>
+		ignore() ? setIgnore(false) : fn(...a)
+	return {
+		ignore: (a?: Parameters<Setter<boolean>>[0]) => {
+			typeof a === 'undefined' ? setIgnore(true) : setIgnore(a)
+		},
+		ignoring: updater => {
+			setIgnore(true)
 			updater()
-			ignoring = false
-		}, 0)
-	const _fn = (...a: [any, any, any]) => ignoring || fn(...a)
-	const stop = watch(source, _fn, options)
-	return { stop, ignore }
+		},
+		stop: watch(source, _fn, options),
+	}
 }
 
-export function ignorableWatch2<T extends (() => any)[], U>(
+export function whenever<T extends (() => any)[], U>(
 	source: WatchArrayParams<T, U>['source'],
 	fn: WatchArrayParams<T, U>['fn'],
 	options?: WatchOptions,
-): IgnorableWatchReturn
-export function ignorableWatch2<T extends () => any, U>(
+): StopWatch
+export function whenever<T extends () => any, U>(
 	source: WatchSignalParams<T, U>['source'],
 	fn: WatchSignalParams<T, U>['fn'],
 	options?: WatchOptions,
-): IgnorableWatchReturn
-export function ignorableWatch2(
+): StopWatch
+export function whenever(
 	source: any,
 	fn: ValidWatchCallback,
 	options?: WatchOptions,
-): IgnorableWatchReturn {
-	let disposeWatcher!: Fn
-	const ignore = (updater: Fn) => {
-		disposeWatcher?.()
-		updater()
-		setTimeout(createWatcher, 0)
+): StopWatch {
+	const isArray = Array.isArray(source)
+	const isTrue = createMemo(() =>
+		isArray ? source.every(a => !!a()) : !!source(),
+	)
+	const _fn = (...a: [any, any, any]) => isTrue() && fn(...a)
+	return watch(source, _fn, options)
+}
+
+export interface UntilToMatchOptions {
+	/**
+	 * Milliseconds timeout for promise to resolve/reject if the when condition does not meet.
+	 * 0 for never timed out
+	 *
+	 * @default 0
+	 */
+	timeout?: number
+	/**
+	 * Reject the promise when timeout
+	 *
+	 * @default false
+	 */
+	throwOnTimeout?: boolean
+}
+export interface UntilBaseInstance<T> {
+	toMatch(
+		condition: (v: T) => boolean,
+		options?: UntilToMatchOptions,
+	): Promise<void>
+	changed(options?: UntilToMatchOptions): Promise<void>
+	changedTimes(n?: number, options?: UntilToMatchOptions): Promise<void>
+}
+export interface UntilValueInstance<T> extends UntilBaseInstance<T> {
+	readonly not: UntilValueInstance<T>
+	toBe<P = T>(
+		value: MaybeAccessor<T | P>,
+		options?: UntilToMatchOptions,
+	): Promise<void>
+	toBeTruthy(options?: UntilToMatchOptions): Promise<void>
+	toBeNull(options?: UntilToMatchOptions): Promise<void>
+	toBeUndefined(options?: UntilToMatchOptions): Promise<void>
+	toBeNaN(options?: UntilToMatchOptions): Promise<void>
+}
+export interface UntilArrayInstance<T> extends UntilBaseInstance<T> {
+	readonly not: UntilArrayInstance<T>
+	toInclude(
+		value: MaybeAccessor<ElementOf<T>>,
+		options?: UntilToMatchOptions,
+	): Promise<void>
+}
+
+export function until<T extends (() => any[])[], U>(
+	source: WatchArrayParams<T, U>['source'],
+): UntilArrayInstance<ReturnTypes<T>>
+
+export function until<T extends () => any[], U>(
+	source: WatchSignalParams<T, U>['source'],
+): UntilArrayInstance<ReturnType<T>>
+
+export function until<T extends (() => any)[], U>(
+	source: WatchArrayParams<T, U>['source'],
+): UntilValueInstance<ReturnTypes<T>>
+
+export function until<T extends () => any, U>(
+	source: WatchSignalParams<T, U>['source'],
+): UntilValueInstance<ReturnType<T>>
+
+export function until(
+	source: any,
+): UntilBaseInstance<any> & UntilValueInstance<any> & UntilArrayInstance<any> {
+	let isNot = false
+
+	function toMatch(
+		condition: (v: any) => boolean,
+		{ timeout, throwOnTimeout }: UntilToMatchOptions = {},
+	): Promise<void> {
+		let stop: Fn
+		const watcher = new Promise<void>(resolve => {
+			stop = watch(source, v => {
+				if (condition(v) === !isNot) {
+					stop()
+					resolve()
+				}
+			})
+		})
+		const promises = [watcher]
+		if (timeout)
+			promises.push(
+				promiseTimeout(timeout, throwOnTimeout).finally(() => stop()),
+			)
+
+		return Promise.race(promises)
 	}
-	const createWatcher = () => (disposeWatcher = watch(source, fn, options))
-	createWatcher()
+
+	function changed(options?: UntilToMatchOptions) {
+		return changedTimes(1, options)
+	}
+
+	function changedTimes(n = 1, options?: UntilToMatchOptions) {
+		let count = -1 // skip the immediate check
+		return toMatch(() => ++count >= n, options)
+	}
+
+	function toInclude(value: any, options?: UntilToMatchOptions) {
+		return toMatch((v: any[]) => Array.from(v).includes(read(value)), options)
+	}
+
+	function toBe(value: MaybeAccessor<any>, options?: UntilToMatchOptions) {
+		return toMatch(is => is === read(value), options)
+	}
+
+	function toBeTruthy(options?: UntilToMatchOptions) {
+		return toMatch(v => !!v, options)
+	}
+
+	function toBeNull(options?: UntilToMatchOptions) {
+		return toBe(null, options)
+	}
+
+	function toBeUndefined(options?: UntilToMatchOptions) {
+		return toBe(undefined, options)
+	}
+
+	function toBeNaN(options?: UntilToMatchOptions) {
+		return toMatch(Number.isNaN, options)
+	}
+
 	return {
-		ignore,
-		stop,
+		toMatch,
+		changed,
+		changedTimes,
+		toInclude,
+		toBe,
+		toBeTruthy,
+		toBeNull,
+		toBeUndefined,
+		toBeNaN,
+		get not() {
+			isNot = !isNot
+			return this
+		},
 	}
 }
