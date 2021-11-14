@@ -16,7 +16,7 @@ export const activities = [
 	'reading',
 	'drawing',
 	'photography',
-	'graphics',
+	'cg',
 	'design',
-	'programming',
+	'code',
 ]

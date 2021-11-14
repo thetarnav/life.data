@@ -1,8 +1,8 @@
 import { activities, dayCacheSize } from '@/store/variables'
 import { coinFlip, wait } from '@/utils/general'
-import { cloneDeep, debounce, random } from 'lodash'
+import { cloneDeep, random } from 'lodash'
 
-import { debouncedWatch } from '@/utils/solid/watch'
+import { debouncedWatch } from 'solid-watch-primitives'
 
 export type ActivityValueInt = 0 | 1 | 2 | 3 | 4
 export type ActivityValueFloat = 0 | 0.5 | 1 | 2 | 3

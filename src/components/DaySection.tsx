@@ -25,24 +25,27 @@ const DaySection: Component<{
 					<For each={activities}>
 						{activity => (
 							<div
-								class="w-16 h-16 center-child text-gray-500 border-r border-b border-gray-700 hover:bg-orange-400"
+								class={
+									activity +
+									' cell w-16 h-16 center-child text-gray-500 border-r border-b border-gray-700 hover:bg-orange-400'
+								}
 								style={{
 									animation: 'fade 300ms both',
 								}}
 								use:createEventListener={['click', handleClick]}
 							>
 								<Switch>
+									<Match when={data.activities[activity] === 0.5}>
+										<div class="w-1.5 h-1.5"></div>
+									</Match>
 									<Match when={data.activities[activity] === 1}>
-										<div class="w-1 h-1 bg-gray-800 rounded-full"></div>
+										<div class="w-3 h-3"></div>
 									</Match>
 									<Match when={data.activities[activity] === 2}>
-										<div class="w-3 h-3 bg-gray-800 rounded-full"></div>
+										<div class="w-4 h-4"></div>
 									</Match>
 									<Match when={data.activities[activity] === 3}>
-										<div class="w-4 h-4 bg-gray-800 rounded-full"></div>
-									</Match>
-									<Match when={data.activities[activity] === 4}>
-										<div class="w-5 h-5 bg-gray-800 rounded-full"></div>
+										<div class="w-5 h-5"></div>
 									</Match>
 								</Switch>
 							</div>

@@ -103,7 +103,7 @@ const Timeline: Component = () => {
 			>
 				<div
 					ref={setContentWrapper}
-					class="relative my-auto px-84 w-max box-content border-t border-b border-dark-100 bg-gray-100"
+					class="relative my-auto px-84 w-max box-content border-t border-b border-dark-100"
 				>
 					<ViewportObserverProvider>
 						<div class="flex">

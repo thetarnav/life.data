@@ -1,7 +1,21 @@
+$sport: theme("colors.red.500");
+$work-out: theme("colors.orange.500");
+$walking: theme("colors.amber.500");
+$meditation: theme("colors.green.500");
+$redaing: theme("colors.light-blue.500");
+$drawing: theme("colors.warm-gray.500");
+$photography: theme("colors.cyan.500");
+$cg: theme("colors.purple.500");
+$design: theme("colors.fuchsia.500");
+$code: theme("colors.blue.500");
+
 html,
 body,
 #root {
   @apply h-screen w-screen overflow-hidden;
+}
+body {
+  @apply bg-dark-900 text-gray-400;
 }
 
 .month-section,
@@ -52,5 +66,95 @@ $day-width: "(0.1rem + 3.9rem * var(--zoom))";
   }
   to {
     opacity: 1;
+  }
+}
+
+.cell {
+  div {
+    @apply bg-current rounded-full;
+  }
+
+  &.sport {
+    color: $sport;
+  }
+  &.work-out {
+    color: $work-out;
+  }
+  &.walking {
+    color: $walking;
+  }
+  &.meditation {
+    color: $meditation;
+  }
+  &.reading {
+    color: $redaing;
+  }
+  &.drawing {
+    color: $drawing;
+  }
+  &.photography {
+    color: $photography;
+  }
+  &.cg {
+    color: $cg;
+  }
+  &.design {
+    color: $design;
+  }
+  &.code {
+    color: $code;
+  }
+}
+
+.activity-category {
+  &.sport {
+    div {
+      background: $sport;
+    }
+  }
+  &.work-out {
+    div {
+      background: $work-out;
+    }
+  }
+  &.walking {
+    div {
+      background: $walking;
+    }
+  }
+  &.meditation {
+    div {
+      background: $meditation;
+    }
+  }
+  &.reading {
+    div {
+      background: $redaing;
+    }
+  }
+  &.drawing {
+    div {
+      background: $drawing;
+    }
+  }
+  &.photography {
+    div {
+      background: $photography;
+    }
+  }
+  &.cg {
+    div {
+      background: $cg;
+    }
+  }
+  &.design {
+    div {
+      background: $design;
+    }
+  }
+  &.code {
+    div {
+      background: $code;
+    }
   }
 }
