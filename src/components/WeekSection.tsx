@@ -3,6 +3,7 @@ import { useViewportObserver } from './Timeline'
 import { range } from 'lodash'
 import DaySection from './DaySection'
 import useAPI, { DayData } from '@/logic/api'
+import { createTemplateRef } from '@/utils/solid/template-ref'
 
 const Days: Component<{ firstDayIndex: number; nDays: number }> = props => {
 	let dayIndex = props.firstDayIndex
@@ -39,6 +40,8 @@ const WeekSection: Component<{
 
 	// const [initialTimeout, setInitialTimeout] = createSignal(false)
 	// setTimeout(() => setInitialTimeout(true), 500)
+
+	// let coverEl!: HTMLDivElement
 
 	return (
 		<section

@@ -5,6 +5,7 @@ import { useAppStore } from '@/store/app'
 import WeekSection from './WeekSection'
 import { daysFirstWeek, daysLastWeek, getNumberOfWeeks } from '@/logic/time'
 import { createViewportObserverProvider } from '@/utils/solid/ViewportObserver'
+import { createTemplateRef } from '@/utils/solid/template-ref'
 
 const [ViewportObserverProvider, useViewportObserver] =
 	createViewportObserverProvider({ threshold: 0.2 })
@@ -88,9 +89,23 @@ const Timeline: Component = () => {
 		)
 	}
 
+	const [testActive, setTestActive] = createSignal(true)
+
+	const [myEl, ref] = createTemplateRef<HTMLElement>()
+
+	createEffect(
+		on(myEl, el => {
+			console.log('MY REF:', el)
+		}),
+	)
+
 	return (
 		<>
-			<div class="fixed z-50 left-4 top-4"></div>
+			<Show when={testActive()}>
+				<div class="fixed z-50 left-4 top-4" ref={ref}>
+					HOOO
+				</div>
+			</Show>
 			<div
 				ref={setEl}
 				class="hide-scrollbar w-screen h-screen flex overflow-x-scroll my-auto select-none"
@@ -100,6 +115,7 @@ const Timeline: Component = () => {
 					'--days-opacity': daysOpacity(),
 				}}
 				onMouseDown={() => (isDragging = true)}
+				onClick={() => setTestActive(p => !p)}
 			>
 				<div
 					ref={setContentWrapper}

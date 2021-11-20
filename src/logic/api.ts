@@ -1,8 +1,7 @@
 import { activities, dayCacheSize } from '@/store/variables'
 import { coinFlip, wait } from '@/utils/general'
+import { createCompositeEffect, debounce } from '@solid-primitives/composites'
 import { cloneDeep, random } from 'lodash'
-
-import { debouncedWatch } from 'solid-watch-primitives'
 
 export type ActivityValueInt = 0 | 1 | 2 | 3 | 4
 export type ActivityValueFloat = 0 | 0.5 | 1 | 2 | 3
@@ -96,7 +95,7 @@ function createApiLogic() {
 		}
 	}
 
-	debouncedWatch(fetchDaysQueue, executeFetchDaysQueue, 100)
+	createCompositeEffect(debounce(fetchDaysQueue, executeFetchDaysQueue, 100))
 
 	const requestDaysData = (
 		from: number,
